@@ -11,27 +11,15 @@ function App() {
   const [noOfPeople, setNoOfPeople] = useState(0);
   const [tipPercent, setTipPercent] = useState(0);
 
-  const calculateTip = () => {
-    let tipAmount = bill * (tipPercent / 100);
-    let totalAmount = bill + tipAmount;
-    let tipAmountPerPerson = tipAmount / noOfPeople;
-    let totalAmountPerPerson = totalAmount / noOfPeople;
-
-    setValues({
-      tipPerson: tipAmountPerPerson,
-      totalTipPerPerson: totalAmountPerPerson,
-    });
-  };
-
   const [values, setValues] = useState({
     tipPerPerson: 0.0,
     totalTipPerPerson: 0.0,
   });
 
   const resetValues = () => {
-    setBill(0);
-    setTipPercent(0);
-    setNoOfPeople(0);
+    setBill(0.0);
+    setTipPercent(0.0);
+    setNoOfPeople(0.0);
     setValues({
       tipPerPerson: 0.0,
       totalTipPerPerson: 0.0,
@@ -39,8 +27,19 @@ function App() {
   };
 
   useEffect(() => {
+    const calculateTip = () => {
+      let tipAmount = bill * (tipPercent / 100);
+      let totalAmount = bill + tipAmount;
+      let tipAmountPerPerson = tipAmount / noOfPeople;
+      let totalAmountPerPerson = totalAmount / noOfPeople;
+
+      setValues({
+        tipPerson: tipAmountPerPerson,
+        totalTipPerPerson: totalAmountPerPerson,
+      });
+    };
+
     calculateTip();
-    console.log("yhhh");
   }, [bill, tipPercent, noOfPeople]);
 
   return (
@@ -57,6 +56,7 @@ function App() {
             tipPercent={tipPercent}
             setTipPercent={setTipPercent}
             noOfPeople={noOfPeople}
+            setNoOfPeople={setNoOfPeople}
           />
           <DisplayValues {...values} resetFunction={resetValues} />
         </div>
